@@ -1,0 +1,38 @@
+﻿<nav class="navbar navbar-expand-lg" style="background-color:cornflowerblue;">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <NavLink class="nav-link" href="" style="font-size:larger; color:black;" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> CarpatiAnswer
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link" href="newquestion" style="color:black;">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Ask a question
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link" href="users" style="color:black;">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Users list
+                </NavLink>
+            </li>
+        </ul>
+        <div class="form-inline my-2 my-lg-0">
+            <AuthorizeView>
+                <Authorized>
+                    <span style="margin-bottom:1px; color:black;" >Hello, @context.User.Identity.Name!</span>
+                    <form method="post" action="Identity/Account/LogOut" >
+                        <button type="submit" class="btn btn-link nav-link" style="color:black;">Log out</button>
+                    </form>
+                </Authorized>
+                <NotAuthorized>
+                    <a class="nav-link" href="Identity/Account/Register" style="color:black;">Register</a>
+                    <a class="nav-link" href="Identity/Account/Login" style="color:black;">Log in</a>
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+    </div>
+</nav>
