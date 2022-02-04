@@ -10,7 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QA.Infrastructure.ApplicationContext;
+using QA.Infrastructure.BaseCommandHandler;
 using QA.Infrastructure.Domain;
+using QA.Infrastructure.Identity;
 
 namespace QA.Web
 {
@@ -45,8 +47,25 @@ namespace QA.Web
             })
                .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+            #region REGISTERING HANDLERS DYNAMICALLY
+            var type = typeof(BaseController<>);
+            type.Assembly.ExportedTypes
+                .Where(t => t.BaseType.Name.Equals(type.Name))
+                .ToList().ForEach(implementationType => services.AddScoped(implementationType));
+            #endregion
+
+            #region REGISTERING VALIDATORS
+            ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
+            AssemblyScanner.FindValidatorsInAssemblyContaining<ApplicationDbContext>()
+                .ForEach(pair =>
+                {
+                    services.Add(ServiceDescriptor.Scoped(pair.InterfaceType, pair.ValidatorType));
+                });
+            #endregion
 
             services.AddDataProtection();
             services.AddRazorPages();

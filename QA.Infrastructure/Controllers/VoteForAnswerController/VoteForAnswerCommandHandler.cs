@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace QA.Infrastructure.Controllers.VoteForAnswerHandler
+namespace QA.Infrastructure.Controllers.VoteForAnswerController
 {
     public class VoteForAnswerCommandHandler : BaseController<VoteForAnswerCommand>
     {

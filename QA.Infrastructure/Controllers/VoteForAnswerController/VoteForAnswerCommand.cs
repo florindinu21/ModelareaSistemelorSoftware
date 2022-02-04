@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace QA.Infrastructure.Controllers.VoteForAnswerHandler
+namespace QA.Infrastructure.Controllers.VoteForAnswerController
 {
     public class VoteForAnswerCommand
     {
